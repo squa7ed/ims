@@ -1,0 +1,77 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:local="clr-namespace:IMS.Themes">
+
+    <!-- Common brushes and colors -->
+    <SolidColorBrush x:Key="PrimaryBorderBrush" Color="#FFCCCCCC" />
+
+    <SolidColorBrush x:Key="LoadingPanelBackgroundBrush" Color="White" />
+
+    <Color x:Key="PrimaryBorderColor">#FFCCCCCC</Color>
+
+    <SolidColorBrush x:Key="PrimaryBakcgroundBrush" Color="#FF7381F9" />
+
+    <Color x:Key="PrimaryBakcgroundColor">#FF7381F9</Color>
+
+    <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="Black" />
+
+    <Color x:Key="PrimaryTextColor">Black</Color>
+
+    <SolidColorBrush x:Key="TitleForegroundBrush" Color="#BF000000" />
+
+    <Color x:Key="TitleTextColor">#BF000000</Color>
+
+    <SolidColorBrush x:Key="SubTitleForegroundBrush" Color="#FF132D6E" />
+
+    <Color x:Key="SubTitleTextColor">#FF132D6E</Color>
+
+    <SolidColorBrush x:Key="UIElementForegroundBrush" Color="White" />
+
+    <Color x:Key="UIElementTextColor">White</Color>
+
+    <SolidColorBrush x:Key="ContentBrush" Color="Transparent" />
+
+    <!-- Navigation bar brushes and colors -->
+
+    <SolidColorBrush x:Key="NavigationBarBackgroundBrush" Color="#FFE8E8E8" />
+
+    <SolidColorBrush x:Key="NavigationBarItemBackgroundBrush" Color="#FF3F3F3F" />
+
+    <!-- Filter panel brushes and colors -->
+
+    <SolidColorBrush x:Key="FilterPanelBackgroundBrush" Color="Transparent" />
+
+    <SolidColorBrush x:Key="FilterPanelItemBackgroundBrush" Color="Transparent" />
+
+    <SolidColorBrush x:Key="FilterPanelSelectedItemBackgroundBrush" Color="#FF2F51A5" />
+
+    <!-- Command bar brushes and colors -->
+    <SolidColorBrush x:Key="CommandBarBackgroudBrush" Color="#FF3F3F3F" />
+
+    <Color x:Key="CommandBarBackgroudColor">#FF3F3F3F</Color>
+
+    <SolidColorBrush x:Key="CommandBarButtonBackgroundBrush" Color="Transparent" />
+
+    <Color x:Key="CommandBarButtonBackgroundColor">Transparent</Color>
+
+    <!-- Dialog panel brushes and colors -->
+    <SolidColorBrush x:Key="DialogPanelBackgroundBrush" Color="#FF171616" />
+
+    <SolidColorBrush x:Key="DialogPanelButtonBackgroundBrush" Color="#FF5F5959" />
+
+    <SolidColorBrush x:Key="DialogPanelForegroundBrush" Color="#FFDAD1D1" />
+
+    <SolidColorBrush x:Key="DialogPanelTitleForegroundBrush" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="DialogPanelUIElementForegroundBrush" Color="#FFDAD1D1" />
+
+    <!-- DataGrid brushes and colors -->
+    <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="#BFE8E8E8" />
+
+    <Color x:Key="DataGridColoumnHeaderBackgroundColor">#BFE8E8E8</Color>
+
+    <SolidColorBrush x:Key="DataGridSelectedRowBackgroundBrush" Color="#FF2F51A5" />
+
+    <Color x:Key="DataGridSelectedRowBackgroundColor">#FF2F51A5</Color>
+
+</ResourceDictionary>

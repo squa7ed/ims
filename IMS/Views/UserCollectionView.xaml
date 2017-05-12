@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="IMS.Views.UserCollectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:convertors="clr-namespace:IMS.Common.Convertors"
+             xmlns:local="clr-namespace:IMS.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <UserControl.Resources>
+        <convertors:ImageColorConvertor x:Key="ImageColorConvertor" />
+    </UserControl.Resources>
+    <Grid>
+        <Image Width="128"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Source="{Binding Source={StaticResource IconStar}, Converter={StaticResource ImageColorConvertor}}" />
+
+    </Grid>
+</UserControl>

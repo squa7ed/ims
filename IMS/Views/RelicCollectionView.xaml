@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="IMS.Views.RelicCollectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:IMS.Views"
+             xmlns:vm="clr-namespace:IMS.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+             d:DesignHeight="300">
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+            <TextBlock Text="藏品"
+                       Style="{StaticResource PrimaryTitle}" />
+            <TextBlock Text="类别"
+                       Style="{StaticResource SubTitle}" />
+        </StackPanel>
+        <Grid DockPanel.Dock="Bottom"
+              Style="{StaticResource CommandBar}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal"
+                        FlowDirection="RightToLeft">
+                <Border Style="{StaticResource CommandBarColumnSeperator}" />
+                <Button Style="{StaticResource CommandBarButton}"
+                        Tag="{StaticResource IconAdd}"
+                        Command="{Binding AddCommand}"
+                        Content="新增" />
+                <Button Style="{StaticResource CommandBarButton}"
+                        Tag="{StaticResource IconPencil}"
+                        Command="{Binding EditCommand}"
+                        Content="编辑" />
+                <Button Style="{StaticResource CommandBarButton}"
+                        Tag="{StaticResource IconDownload}"
+                        Command="{Binding ImportCommand}"
+                        Content="导入" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="1">
+                <Button Style="{StaticResource CommandBarButton}"
+                        Tag="{StaticResource IconScrewdriver}"
+                        Command="{Binding RepairCommand}"
+                        Content="修复" />
+                <Button Style="{StaticResource CommandBarButton}"
+                        Tag="{StaticResource IconCopy}"
+                        Command="{Binding ReplicateCommand}"
+                        Content="仿制" />
+
+            </StackPanel>
+            <TextBox Style="{StaticResource ImagedTextBox}"
+                     Text="{Binding FilterText}"
+                     Tag="{StaticResource IconSearch}"
+                     Width="200"
+                     VerticalAlignment="Bottom"
+                     HorizontalAlignment="Right"
+                     Grid.Column="1" />
+
+        </Grid>
+        <ListBox DockPanel.Dock="Left"
+                 Style="{StaticResource FilterPanel}"
+                 SelectedItem="{Binding FilterResult}"
+                 x:Name="FilterList"
+                 ItemsSource="{Binding FilterList}" />
+        <DataGrid ItemsSource="{Binding FilterResult.Result}"
+                  SelectedItem="{Binding SelectedRelic}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="编号"
+                                    Binding="{Binding RelicId}" />
+                <DataGridTextColumn Header="名称"
+                                    Binding="{Binding Name}" />
+                <DataGridTextColumn Header="年代"
+                                    Binding="{Binding Age.Name}"
+                                    SortMemberPath="Id" />
+                <DataGridTextColumn Header="类别"
+                                    Binding="{Binding Category.Name}"
+                                    SortMemberPath="Id" />
+                <DataGridTextColumn Header="质地"
+                                    Binding="{Binding Grain.Name}"
+                                    SortMemberPath="Id" />
+                <DataGridTextColumn Header="数量"
+                                    Binding="{Binding Amount}" />
+                <DataGridTextColumn Header="级别"
+                                    Binding="{Binding Level.Name}"
+                                    SortMemberPath="Id" />
+                <DataGridTextColumn Header="来源"
+                                    Binding="{Binding Source.Name}"
+                                    SortMemberPath="Id" />
+                <DataGridTextColumn Header="完残程度"
+                                    Binding="{Binding DisabilityLevel.Name}"
+                                    SortMemberPath="Id" />
+                <DataGridTextColumn Header="保存状态"
+                                    Binding="{Binding StoringCondition.Name}"
+                                    SortMemberPath="Id" />
+                <DataGridTextColumn Header="入藏时间范围"
+                                    Binding="{Binding CollectedTimeRange.Name}" />
+            </DataGrid.Columns>
+            <DataGrid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick"
+                              Command="{Binding EditCommand}" />
+            </DataGrid.InputBindings>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

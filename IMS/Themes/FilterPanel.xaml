@@ -1,0 +1,73 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:convertor="clr-namespace:IMS.Common.Convertors" >
+
+    <convertor:VisibilityConvertor x:Key="VisibilityConvertor" />
+    <convertor:ImageColorConvertor x:Key="ImageColorConvertor" />
+
+    <Style x:Key="FilterPanelItemContainerStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Margin" Value="5, 0, 5, 5" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource FilterPanelBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TitleForegroundBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                            Background="{TemplateBinding Background}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource FilterPanelSelectedItemBackgroundBrush}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource FilterPanelSelectedItemBackgroundBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource UIElementForegroundBrush}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Opacity" Value="0.75" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate x:Key="FilterPanelItemTemplate">
+        <Grid Width="192">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Image Source="{Binding Icon}" Width="32" Height="32" Margin="9" />
+            <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Margin="5, 3" 
+                       Text="{Binding Title}" HorizontalAlignment="Left" 
+                       FontSize="14" />
+            <TextBlock Grid.Column="1" Margin="5, 3" 
+                       Text="{Binding Count}" 
+                       HorizontalAlignment="Right" 
+                       FontSize="24" FontWeight="Bold" />
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="FilterPanel" TargetType="{x:Type ListBox}">
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="Margin" Value="5, 0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ItemTemplate" Value="{StaticResource FilterPanelItemTemplate}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource FilterPanelItemContainerStyle}" />
+        <!--<Setter Property="ScrollViewer.CanContentScroll" Value="False"/>-->
+    </Style>
+
+</ResourceDictionary>
