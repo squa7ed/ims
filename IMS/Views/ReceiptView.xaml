@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="IMS.Views.ReceiptView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:IMS" x:Name="This">
+    <UserControl.Resources>
+        <Storyboard x:Key="ShowSelectionGrid" x:Name="ShowSelectionGridStoryboad">
+            <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetName="SelectionRoot" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation BeginTime="0" Storyboard.TargetName="SelectionRoot" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
+        </Storyboard>
+        <Storyboard x:Key="HideSelectionGrid" x:Name="HideSelectionGrid">
+            <DoubleAnimation BeginTime="0" Storyboard.TargetName="SelectionRoot" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5" />
+            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetName="SelectionRoot" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="Common">
+            <VisualState x:Name="Normal" />
+            <VisualState x:Name="OnSelection">
+                <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Effect">
+                        <DiscreteObjectKeyFrame KeyTime="0">
+                            <DiscreteObjectKeyFrame.Value>
+                                <BlurEffect />
+                            </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectionRoot" Storyboard.TargetProperty="Visibility">
+                        <DiscreteObjectKeyFrame KeyTime="0">
+                            <DiscreteObjectKeyFrame.Value>
+                                <Visibility>Visible</Visibility>
+                            </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+    <Grid>
+        <Grid x:Name="ContentRoot" IsEnabled="{Binding IsEditable}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Text="入库单号" Grid.Row="0" Grid.Column="0" Style="{StaticResource InputTip}" />
+                <TextBox Text="{Binding ReceiptDetail.ReceiptId}" Grid.Row="0" Grid.Column="1" IsReadOnly="True" />
+
+                <TextBlock Text="入库日期" Grid.Row="0" Grid.Column="2" Style="{StaticResource InputTip}" />
+                <TextBox Text="{Binding ReceiptDetail.Date , StringFormat='yyyy-MM-dd'}" Grid.Row="0" Grid.Column="4" IsReadOnly="True" />
+
+                <!--<TextBlock Text="默认仓库" Grid.Row="1" Grid.Column="2" Style="{StaticResource InputTip}" />
+                <ComboBox ItemsSource="{Binding Warehouses}" SelectedItem="{Binding DefaultWarehouse}" DisplayMemberPath="Name" Grid.Row="1" Grid.Column="3" />-->
+
+                <TextBlock Text="入库类型" Grid.Row="1" Grid.Column="0" Style="{StaticResource InputTip}" />
+                <ComboBox ItemsSource="{Binding ReceiptTypes}" SelectedItem="{Binding ReceiptDetail.ReceiptType}" DisplayMemberPath="Name" Grid.Row="1" Grid.Column="1" />
+
+                <TextBlock Text="申请部门" Grid.Row="3" Grid.Column="0" Style="{StaticResource InputTip}" />
+                <ComboBox x:Name="DepartmentComboBox" ItemsSource="{Binding Departments}" SelectedItem="{Binding ReceiptDetail.Department}" Grid.Row="3" Grid.Column="1" DisplayMemberPath="Name" />
+
+                <TextBlock Text="申请人员" Grid.Row="3" Grid.Column="2" Style="{StaticResource InputTip}" />
+                <ComboBox ItemsSource="{Binding ElementName=DepartmentComboBox, Path=SelectedItem.Users}" SelectedItem="{Binding ReceiptDetail.User}" Grid.Row="3" Grid.Column="3" DisplayMemberPath="Name" />
+
+                <TextBlock Text="备注" Grid.Row="4" Grid.Column="0" Style="{StaticResource InputTip}" />
+                <TextBox Text="{Binding ReceiptDetail.Remarks, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" AcceptsReturn="True" VerticalContentAlignment="Top" VerticalAlignment="Top" TextWrapping="Wrap" MinHeight="120" VerticalScrollBarVisibility="Hidden" />
+
+            </Grid>
+            <DataGrid Style="{StaticResource CommonDataGrid}" x:Name="SelectedRelics" Grid.Column="1" ItemsSource="{Binding SelectedEntities}" IsReadOnly="False" IsEnabled="{Binding IsEditable}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="编号" IsReadOnly="True" Binding="{Binding Relic.RelicId}" />
+                    <DataGridTextColumn Header="名称" IsReadOnly="True" Binding="{Binding Relic.Name}" />
+                    <DataGridTextColumn Header="入库数量" IsReadOnly="False" Binding="{Binding Count}" />
+                    <DataGridTextColumn Header="单位" IsReadOnly="True" Binding="{Binding Relic.Unit.Name}" SortMemberPath="Id" />
+                    <DataGridTemplateColumn Header="仓库" IsReadOnly="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox IsReadOnly="False" ItemsSource="{Binding ElementName=This, Path=DataContext.Warehouses}" DisplayMemberPath="Name" SelectedItem="{Binding Warehouse}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="仓位">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding Warehouse.Children}" DisplayMemberPath="Name" SelectedItem="{Binding Shelf, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource CommandBar}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="ShowSelectionButton" IsEnabled="{Binding IsEditable}" Content="选择藏品" Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconCheck}" Command="{Binding ShowSelectionCommand}" Click="ShowSelectionButton_Click" />
+                    <Button Content="取消" Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconCancel}" Command="{Binding CancelCommand}" />
+                    <Button Content="保存" IsEnabled="{Binding IsEditable}" Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconSave}" Command="{Binding SaveCommand}" />
+                    <Button Content="保存并打印" IsEnabled="{Binding IsEditable}" Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconPrint}" Command="{Binding SaveAndPrintCommand}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <Grid x:Name="SelectionRoot" Background="Transparent" Visibility="Collapsed">
+            <Grid Margin="50">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DataGrid Style="{StaticResource CommonDataGrid}" x:Name="AllRelics" ItemsSource="{Binding Relics}" SelectionMode="Extended" BorderBrush="{DynamicResource PrimaryBorderBrush}" HorizontalAlignment="Center">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="编号" Binding="{Binding RelicId}" />
+                        <DataGridTextColumn Header="名称" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="可入库数量" Binding="{Binding NotStoredAmount}" />
+                        <DataGridTextColumn Header="单位" IsReadOnly="True" Binding="{Binding Unit.Name}" SortMemberPath="Id" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Style="{StaticResource CommandBar}" Grid.Row="1">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="ConfirmSelectionButton" Content="确认" Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconConfirm}" CommandParameter="{Binding ElementName=AllRelics, Path=SelectedItems}" Command="{Binding ConfirmSelectionCommand}" Click="ConfirmSelectionButton_Click" />
+                        <Button x:Name="CancelSelectionButton" Content="取消" Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconCancel}" Click="CancelSelectionButton_Click" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

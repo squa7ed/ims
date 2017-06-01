@@ -1,42 +1,44 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:local="clr-namespace:IMS.Themes">
-    <BitmapImage x:Key="IconAdd" UriSource="pack://application:,,,/IMS;component/Images/add.png" />
-    <BitmapImage x:Key="IconBarcode" UriSource="pack://application:,,,/IMS;component/Images/barcode.png" />
-    <BitmapImage x:Key="IconCancel" UriSource="pack://application:,,,/IMS;component/Images/cancel.png" />
-    <BitmapImage x:Key="IconCertificate" UriSource="pack://application:,,,/IMS;component/Images/certificate.png" />
-    <BitmapImage x:Key="IconCheck" UriSource="pack://application:,,,/IMS;component/Images/check.png" />
-    <BitmapImage x:Key="IconClose" UriSource="pack://application:,,,/IMS;component/Images/close.png" />
-    <BitmapImage x:Key="IconConfirm" UriSource="pack://application:,,,/IMS;component/Images/confirm.png" />
-    <BitmapImage x:Key="IconContact" UriSource="pack://application:,,,/IMS;component/Images/contact.png" />
-    <BitmapImage x:Key="IconCopy" UriSource="pack://application:,,,/IMS;component/Images/copy.png" />
-    <BitmapImage x:Key="IconDocument" UriSource="pack://application:,,,/IMS;component/Images/document.png" />
-    <BitmapImage x:Key="IconDown" UriSource="pack://application:,,,/IMS;component/Images/down.png" />
-    <BitmapImage x:Key="IconDownload" UriSource="pack://application:,,,/IMS;component/Images/download.png" />
-    <BitmapImage x:Key="IconGear" UriSource="pack://application:,,,/IMS;component/Images/gear.png" />
-    <BitmapImage x:Key="IconGroup" UriSource="pack://application:,,,/IMS;component/Images/group.png" />
-    <BitmapImage x:Key="IconHammer" UriSource="pack://application:,,,/IMS;component/Images/hammer.png" />
-    <BitmapImage x:Key="IconHome" UriSource="pack://application:,,,/IMS;component/Images/home.png" />
-    <BitmapImage x:Key="IconIndex" UriSource="pack://application:,,,/IMS;component/Images/index.png" />
-    <BitmapImage x:Key="IconLeft" UriSource="pack://application:,,,/IMS;component/Images/left.png" />
-    <BitmapImage x:Key="IconList" UriSource="pack://application:,,,/IMS;component/Images/list.png" />
-    <BitmapImage x:Key="IconMail" UriSource="pack://application:,,,/IMS;component/Images/mail.png" />
-    <BitmapImage x:Key="IconMessenger" UriSource="pack://application:,,,/IMS;component/Images/messenger.png" />
-    <BitmapImage x:Key="IconPencil" UriSource="pack://application:,,,/IMS;component/Images/pencil.png" />
-    <BitmapImage x:Key="IconPrint" UriSource="pack://application:,,,/IMS;component/Images/print.png" />
-    <BitmapImage x:Key="IconReload" UriSource="pack://application:,,,/IMS;component/Images/reload.png" />
-    <BitmapImage x:Key="IconRight" UriSource="pack://application:,,,/IMS;component/Images/right.png" />
-    <BitmapImage x:Key="IconSave" UriSource="pack://application:,,,/IMS;component/Images/save.png" />
-    <BitmapImage x:Key="IconScrewdriver" UriSource="pack://application:,,,/IMS;component/Images/screwdriver.png" />
-    <BitmapImage x:Key="IconSearch" UriSource="pack://application:,,,/IMS;component/Images/search.png" />
-    <BitmapImage x:Key="IconStar" UriSource="pack://application:,,,/IMS;component/Images/star.png" />
-    <BitmapImage x:Key="IconStatsbar" UriSource="pack://application:,,,/IMS;component/Images/statsbar.png" />
-    <BitmapImage x:Key="IconStatsline" UriSource="pack://application:,,,/IMS;component/Images/statsline.png" />
-    <BitmapImage x:Key="IconStatspie" UriSource="pack://application:,,,/IMS;component/Images/statspie.png" />
-    <BitmapImage x:Key="IconTrashcan" UriSource="pack://application:,,,/IMS;component/Images/trashcan.png" />
-    <BitmapImage x:Key="IconUndo" UriSource="pack://application:,,,/IMS;component/Images/undo.png" />
-    <BitmapImage x:Key="IconUp" UriSource="pack://application:,,,/IMS;component/Images/up.png" />
-    <BitmapImage x:Key="IconZoomIn" UriSource="pack://application:,,,/IMS;component/Images/zoomIn.png" />
-    <BitmapImage x:Key="IconZoomOut" UriSource="pack://application:,,,/IMS;component/Images/zoomOut.png" />
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:IMS.Themes">
+    <BitmapImage DecodePixelWidth="64" x:Key="IconAdd" UriSource="pack://application:,,,/Images/add.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconBarcode" UriSource="pack://application:,,,/Images/barcode.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconBell" UriSource="pack://application:,,,/Images/bell.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconCancel" UriSource="pack://application:,,,/Images/cancel.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconCertificate" UriSource="pack://application:,,,/Images/certificate.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconCheck" UriSource="pack://application:,,,/Images/check.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconClose" UriSource="pack://application:,,,/Images/close.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconConfirm" UriSource="pack://application:,,,/Images/confirm.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconContact" UriSource="pack://application:,,,/Images/contact.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconCopy" UriSource="pack://application:,,,/Images/copy.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconDocument" UriSource="pack://application:,,,/Images/document.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconDown" UriSource="pack://application:,,,/Images/down.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconDownload" UriSource="pack://application:,,,/Images/download.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconExclamation" UriSource="pack://application:,,,/Images/exclamation.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconGear" UriSource="pack://application:,,,/Images/gear.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconGroup" UriSource="pack://application:,,,/Images/group.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconHammer" UriSource="pack://application:,,,/Images/hammer.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconHome" UriSource="pack://application:,,,/Images/home.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconIndex" UriSource="pack://application:,,,/Images/index.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconLeft" UriSource="pack://application:,,,/Images/left.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconList" UriSource="pack://application:,,,/Images/list.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconMail" UriSource="pack://application:,,,/Images/mail.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconMessenger" UriSource="pack://application:,,,/Images/messenger.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconPencil" UriSource="pack://application:,,,/Images/pencil.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconPrint" UriSource="pack://application:,,,/Images/print.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconReload" UriSource="pack://application:,,,/Images/reload.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconRepeat" UriSource="pack://application:,,,/Images/repeat.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconRight" UriSource="pack://application:,,,/Images/right.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconSave" UriSource="pack://application:,,,/Images/save.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconScrewdriver" UriSource="pack://application:,,,/Images/screwdriver.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconSearch" UriSource="pack://application:,,,/Images/search.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconStar" UriSource="pack://application:,,,/Images/star.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconStatsbar" UriSource="pack://application:,,,/Images/statsbar.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconStatsline" UriSource="pack://application:,,,/Images/statsline.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconStatspie" UriSource="pack://application:,,,/Images/statspie.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconTrashcan" UriSource="pack://application:,,,/Images/trashcan.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconUndo" UriSource="pack://application:,,,/Images/undo.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconUp" UriSource="pack://application:,,,/Images/up.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconUpload" UriSource="pack://application:,,,/Images/upload.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconZoomIn" UriSource="pack://application:,,,/Images/zoomIn.png" />
+    <BitmapImage DecodePixelWidth="64" x:Key="IconZoomOut" UriSource="pack://application:,,,/Images/zoomOut.png" />
 
 </ResourceDictionary>

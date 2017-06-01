@@ -8,6 +8,7 @@ using IMS.Views;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.ComponentModel;
 
 namespace IMS.Common.Views
 {
@@ -18,7 +19,7 @@ namespace IMS.Common.Views
         private const string Yes = "是";
         private const string No = "否";
 
-        private static Dialog instance;
+        private bool closingFinished;
 
         private Dialog()
         {
@@ -30,73 +31,54 @@ namespace IMS.Common.Views
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
             ShowInTaskbar = false;
             Background = Application.Current.TryFindResource("DialogPanelBackgroundBrush") as Brush;
+            closingFinished = false;
             Loaded += (o, e) =>
             {
-                var anim = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(500));
-                BeginAnimation(OpacityProperty, anim);
+                var anim = new DoubleAnimation(-Height, (Owner.ActualHeight - Height) / 2, TimeSpan.FromMilliseconds(500));
+                BeginAnimation(TopProperty, anim);
             };
+
             Closing += (o, e) =>
             {
-                var anim = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(500));
-                BeginAnimation(OpacityProperty, anim);
+                if (!closingFinished)
+                {
+                    e.Cancel = true;
+                    var anim = new DoubleAnimation(Top, Owner.ActualHeight + Height, TimeSpan.FromMilliseconds(500));
+                    anim.Completed += (o1, e1) => { closingFinished = true; Close(); };
+                    BeginAnimation(TopProperty, anim);
+                }
             };
-        }
-
-        public static void Show(object uc)
-        {
-            instance = new Dialog() { Content = uc }; ;
-            instance.ShowDialog();
-        }
-
-        public static void Change(object uc)
-        {
-            if (instance != null)
-            {
-                instance.Content = uc;
-            }
-            else
-            {
-                instance = new Dialog() { Content = uc };
-            }
-        }
-
-        public static void Dispose()
-        {
-            if (instance != null)
-            {
-                instance.Close();
-            }
         }
 
         public static void ShowMessage(string message, string title, MessageBoxButton buttons, out MessageBoxResult result)
         {
             MessageBoxResult Result = MessageBoxResult.None;
-            Grid grid = null;
+            Panel grid = null;
             switch (buttons)
             {
                 case MessageBoxButton.OK:
-                    grid = CreateGrid(message, title, new string[] { OK });
+                    grid = CreateMessagePanel(message, title, new string[] { OK });
                     break;
                 case MessageBoxButton.OKCancel:
-                    grid = CreateGrid(message, title, new string[] { OK, Cancel });
+                    grid = CreateMessagePanel(message, title, new string[] { OK, Cancel });
                     break;
                 case MessageBoxButton.YesNoCancel:
-                    grid = CreateGrid(message, title, new string[] { Yes, No, Cancel });
+                    grid = CreateMessagePanel(message, title, new string[] { Yes, No, Cancel });
                     break;
                 case MessageBoxButton.YesNo:
-                    grid = CreateGrid(message, title, new string[] { Yes, No });
+                    grid = CreateMessagePanel(message, title, new string[] { Yes, No });
                     break;
                 default:
                     break;
             }
             var dialog = new Dialog() { Content = grid };
-            foreach (var btn in grid.Children)
+            foreach (var item in grid.Children)
             {
-                if (btn is Button)
+                if (item is Button)
                 {
-                    (btn as Button).Click += (o, e) =>
+                    (item as Button).Click += (o, e) =>
                     {
-                        switch ((btn as Button).Content)
+                        switch ((item as Button).Content)
                         {
                             case OK:
                                 Result = MessageBoxResult.OK;
@@ -119,19 +101,95 @@ namespace IMS.Common.Views
             result = Result;
         }
 
-        private static Grid CreateGrid(string message, string title, string[] contents)
+        public static void ShowSelection<T>(T[] selections, string title, out T selection)
+        {
+            T _selection = default(T);
+            var panel = CreateSelectionPanel(selections, title);
+            var dialog = new Dialog() { Content = panel };
+            foreach (var item in panel.Children)
+            {
+                if (item is RadioButton)
+                {
+                    var rb = item as RadioButton;
+                    if (rb.IsChecked.HasValue && rb.IsChecked.Value)
+                    {
+                        _selection = (T)rb.Content;
+                    }
+                    rb.Checked += (o, e) =>
+                    {
+                        _selection = (T)rb.Content;
+                    };
+                }
+                if (item is Button)
+                {
+                    (item as Button).Click += (o, e) =>
+                    {
+                        switch ((item as Button).Content)
+                        {
+                            case OK:
+                                break;
+                            case Cancel:
+                                _selection = default(T);
+                                break;
+                        }
+                        dialog.Close();
+                    };
+                }
+            }
+            dialog.ShowDialog();
+            selection = _selection;
+        }
+
+        private static Panel CreateSelectionPanel<T>(T[] selections, string title)
         {
             var grid = new Grid();
-            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(3, GridUnitType.Star) });
-            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+            grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
             grid.ColumnDefinitions.Add(new ColumnDefinition());
-            for (int i = 0; i < contents.Length; i++)
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            for (int i = 0; i < selections.Length; i++)
+            {
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto, SharedSizeGroup = "Selection" });
+                var radio = new RadioButton() { Content = selections[i], Style = Application.Current.TryFindResource("DialogPanelRadioButton") as Style, IsChecked = i == 0 };
+                Grid.SetRow(radio, i + 1);
+                Grid.SetColumn(radio, 1);
+                Grid.SetColumnSpan(radio, 2);
+                grid.Children.Add(radio);
+            }
+            grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            var okBtn = new Button() { Content = OK, Style = Application.Current.TryFindResource("DialogPanelButton") as Style };
+            var cancelBtn = new Button() { Content = Cancel, Style = Application.Current.TryFindResource("DialogPanelButton") as Style };
+            Grid.SetRow(okBtn, selections.Length + 1);
+            Grid.SetColumn(okBtn, 1);
+            Grid.SetRow(cancelBtn, selections.Length + 1);
+            Grid.SetColumn(cancelBtn, 2);
+            grid.Children.Add(okBtn);
+            grid.Children.Add(cancelBtn);
+            var ti = new TextBlock()
+            {
+                Text = title,
+                Style = Application.Current.TryFindResource("DialogPanelTitle") as Style,
+            };
+            Grid.SetRow(ti, 0);
+            Grid.SetColumn(ti, 1);
+            Grid.SetColumnSpan(ti, 2);
+            grid.Children.Add(ti);
+            return grid;
+        }
+
+        private static Panel CreateMessagePanel(string message, string title, string[] btnContent)
+        {
+            var grid = new Grid();
+            grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            for (int i = 0; i < btnContent.Length; i++)
             {
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-                var btn = new Button() { Content = contents[i], Style = Application.Current.TryFindResource("DialogPanelButton") as Style };
-                Grid.SetRow(btn, 3);
+                var btn = new Button() { Content = btnContent[i], Style = Application.Current.TryFindResource("DialogPanelButton") as Style };
+                Grid.SetRow(btn, 2);
                 Grid.SetColumn(btn, i + 1);
                 grid.Children.Add(btn);
             }
@@ -146,12 +204,12 @@ namespace IMS.Common.Views
                 Text = message,
                 Style = Application.Current.TryFindResource("DialogPanelText") as Style,
             };
-            Grid.SetRow(ti, 1);
+            Grid.SetRow(ti, 0);
             Grid.SetColumn(ti, 1);
-            Grid.SetColumnSpan(ti, contents.Length);
-            Grid.SetRow(msg, 2);
+            Grid.SetColumnSpan(ti, btnContent.Length);
+            Grid.SetRow(msg, 1);
             Grid.SetColumn(msg, 1);
-            Grid.SetColumnSpan(msg, contents.Length);
+            Grid.SetColumnSpan(msg, btnContent.Length);
             grid.Children.Add(ti);
             grid.Children.Add(msg);
             return grid;

@@ -7,21 +7,27 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace IMS.Entity
 {
     [Serializable]
-    public abstract class BaseEntity : ICloneable, INotifyPropertyChanged
+    public abstract class BaseEntity : ICloneable, INotifyPropertyChanged, INotifyPropertyChanging
     {
         public BaseEntity()
         {
             Id = Guid.NewGuid();
         }
 
-        public Guid Id { get; set; }
+        public Guid? Id { get; private set; }
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangingEventHandler PropertyChanging;
 
         protected void NotifyPropertyChanged([CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        protected void NotifyPropertyChanging([CallerMemberName] string name = "")
+        {
+            PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(name));
         }
 
         public object Clone()
@@ -34,7 +40,10 @@ namespace IMS.Entity
             string str = string.Format("{0}:\n", GetType());
             foreach (var prop in GetType().GetProperties())
             {
-                str += string.Format("\t{0} : {1}\n", prop.Name, prop.GetMethod.Invoke(this, new object[] { }));
+                if (prop.GetType().IsValueType)
+                {
+                    str += string.Format("\t{0} : {1}\n", prop.Name, prop.GetMethod.Invoke(this, new object[] { }));
+                }
             }
             return str;
         }

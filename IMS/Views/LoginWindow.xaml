@@ -1,0 +1,30 @@
+﻿<Window x:Class="IMS.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IMS.Views" ShowInTaskbar="False"
+        mc:Ignorable="d" WindowStyle="None" AllowsTransparency="True"
+        Title="LoginWindow" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Image Grid.RowSpan="6" Width="400">
+            <Image.Source>
+                <BitmapImage UriSource="pack://application:,,,/Images/background.png" DecodePixelWidth="400" />
+            </Image.Source>
+        </Image>
+        <Button Content="X" Margin="5" BorderThickness="0" Background="Transparent" Width="16" HorizontalAlignment="Right" Click="CloseButtonClick" IsCancel="True"/>
+        <TextBlock Text="文物保护单位综合管理系统" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" FontFamily="楷体" FontWeight="ExtraBold" />
+        <TextBox x:Name="UserName" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Width="200" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30"/>
+        <PasswordBox x:Name="UserPassword" Grid.Row="3" Margin="3, 5" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Width="200" HorizontalContentAlignment="Center" Height="30"/>
+        <Button Grid.Row="4" Margin="5" BorderThickness="0" Background="{DynamicResource PrimaryBakcgroundBrush}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Width="200" Height="30" Content="登陆" Click="LoginButtonClick" IsDefault="True"/>
+        <TextBlock Foreground="DarkGray" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="Inetegrated Management System for Relic Protection Units"  />
+    </Grid>
+</Window>

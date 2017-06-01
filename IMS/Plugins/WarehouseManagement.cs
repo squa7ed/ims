@@ -1,11 +1,5 @@
-﻿using IMS.Interfaces;
-using IMS.ViewModels;
+﻿using IMS.ViewModels;
 using IMS.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -20,7 +14,7 @@ namespace IMS.Plugins
         public ImageSource Icon => Application.Current.TryFindResource("IconHome") as BitmapImage;
 
         private UserControl content;
-        public UserControl Content => content ?? (content = new WarehouseCollectionView() {DataContext = new WarehouseCollectionViewModel() });
+        public UserControl Content => content ?? (content = new WarehouseView() { DataContext = new WarehouseViewModel() });
 
         public string Description => "新增、修改单位物品、仓库、仓库库位，内部转移物品等。";
 

@@ -1,4 +1,5 @@
-﻿using IMS.Entity;
+﻿using IMS.Common.Views;
+using IMS.Entity;
 using IMS.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -24,46 +25,31 @@ namespace IMS
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Storyboard fadeOut;
-        private Storyboard fadeIn;
         public MainWindow()
         {
             InitializeComponent();
             var vm = new MainWindowViewModel();
             Closing += vm.Dispose;
-            vm.PropertyChanged += OnContentChange;
+            vm.PropertyChanging += OnCurrentContentChanging;
             DataContext = vm;
-            fadeIn = Application.Current.TryFindResource("FadeIn") as Storyboard;
-            fadeOut = Application.Current.TryFindResource("FadeOut") as Storyboard;
+        }
+
+        private void OnCurrentContentChanging(object sender, PropertyChangingEventArgs e)
+        {
+            if (e.PropertyName == "CurrentContent")
+            {
+                (TryFindResource("ContentChangeAnimation") as Storyboard).Begin();
+            }
         }
 
         public void StartLoading()
         {
-            Panel.SetZIndex(LoadingRoot, 1);
-            (TryFindResource("LoadingStartAnimation") as Storyboard).Begin();
-            (TryFindResource("LoadingIndivcatorAnimation") as Storyboard).Begin();
+            VisualStateManager.GoToElementState(this, "Loading", true);
         }
 
         public void StopLoading()
         {
-            (TryFindResource("LoadingStopAnimation") as Storyboard).Begin();
-            (TryFindResource("LoadingIndivcatorAnimation") as Storyboard).Remove();
-            Panel.SetZIndex(LoadingRoot, -1);
-        }
-
-        private void OnContentChange(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "ContentOut":
-                    fadeOut.Begin(ContentRoot);
-                    break;
-                case "ContentIn":
-                    fadeIn.Begin(ContentRoot);
-                    break;
-                default:
-                    break;
-            }
+            VisualStateManager.GoToElementState(this, "Normal", true);
         }
     }
 }

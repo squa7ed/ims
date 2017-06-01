@@ -1,5 +1,4 @@
-﻿using IMS.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -58,27 +57,27 @@ namespace IMS
 
         public void Critical(string message, params object[] args)
         {
-            source.TraceEvent(TraceEventType.Critical, 1, message, args);
+            lock (source) { source.TraceEvent(TraceEventType.Critical, 1, message, args); }
         }
 
         public void Error(string message, params object[] args)
         {
-            source.TraceEvent(TraceEventType.Error, 2, message, args);
+            lock (source) { source.TraceEvent(TraceEventType.Error, 2, message, args); }
         }
 
         public void Warning(string message, params object[] args)
         {
-            source.TraceEvent(TraceEventType.Warning, 4, message, args);
+            lock (source) { source.TraceEvent(TraceEventType.Warning, 4, message, args); }
         }
 
         public void Info(string message, params object[] args)
         {
-            source.TraceEvent(TraceEventType.Information, 8, message, args);
+            lock (source) { source.TraceEvent(TraceEventType.Information, 8, message, args); }
         }
 
         public void Verbose(string message, params object[] args)
         {
-            source.TraceEvent(TraceEventType.Verbose, 16, message, args);
+            lock (source) { source.TraceEvent(TraceEventType.Verbose, 16, message, args); }
         }
     }
 }

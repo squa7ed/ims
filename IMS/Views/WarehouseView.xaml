@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="IMS.Views.WarehouseView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:IMS.Views" xmlns:vm="clr-namespace:IMS.ViewModels" mc:Ignorable="d">
+    <DockPanel LastChildFill="True">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <TextBlock Style="{StaticResource PrimaryTitle}" Text="仓库" />
+            <TextBlock Style="{StaticResource SubTitle}" Text="{Binding FilterText}" />
+        </StackPanel>
+        <Grid Grid.Row="4" Grid.ColumnSpan="3" Style="{StaticResource CommandBar}" DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" FlowDirection="RightToLeft">
+                <Button Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconCheck}" Command="{Binding InventoryCommand}" Content="盘点" />
+                <Button Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconStatspie}" Command="{Binding StatisticsCommand}" Content="统计" />
+                <Button Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconGear}" Command="{Binding StatisticsCommand}" Content="仓库设置" />
+            </StackPanel>
+            <Border Grid.Column="1" Style="{StaticResource CommandBarColumnSeperator}" />
+            <Border Grid.Column="2" Style="{StaticResource CommandBarColumnSeperator}" />
+
+            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Column="1">
+                <Button Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconDownload}" Command="{Binding ReceiptCommand}" Content="入库" />
+                <Button Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconUpload}" Command="{Binding DeliveryCommand}" Content="出库" />
+                <Button Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconRepeat}" Command="{Binding EditCommand}" Content="移动" />
+
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <Button Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconBell}" Command="{Binding AccidentRegisterCommand}" Content="事故登记" />
+                <Button Style="{StaticResource CommandBarButton}" Tag="{StaticResource IconMessenger}" Command="{Binding PersonnelRegisterCommand}" Content="出入登记" />
+            </StackPanel>
+            <TextBox Style="{StaticResource ImagedTextBox}" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" Tag="{StaticResource IconSearch}" Width="200" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="2" />
+
+        </Grid>
+        <ItemsControl Style="{StaticResource FilterPanel}" Grid.Row="1" Grid.RowSpan="3" DockPanel.Dock="Left" />
+
+        <Grid DockPanel.Dock="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Margin="5" BorderThickness="1" BorderBrush="{DynamicResource PrimaryBorderBrush}">
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="藏品" Style="{StaticResource SubTitle}" Grid.Row="0" Grid.Column="1" />
+                    <DataGrid Style="{StaticResource CommonDataGrid}" ItemsSource="{Binding Entities}" SelectedItem="{Binding Entity}" Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="编号" Binding="{Binding RelicId}" />
+                            <DataGridTextColumn Header="仓库" Binding="{Binding Warehouse.Name}" />
+                            <DataGridTextColumn Header="仓位" Binding="{Binding Shelf.Name}" />
+                            <DataGridTextColumn Header="实际数量" Binding="{Binding TotalAmount}" />
+                            <DataGridTextColumn Header="库存数量" Binding="{Binding StorageAmount}" />
+                            <DataGridTextColumn Header="出库数量" Binding="{Binding OutStorageAmount}" />
+                            <DataGridTextColumn Header="未存数量" Binding="{Binding NotStoredAmount}" />
+                            <DataGridTextColumn Header="单位" Binding="{Binding Unit.Name}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+            <Border Margin="5" Grid.Column="1" BorderThickness="1" BorderBrush="{DynamicResource PrimaryBorderBrush}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="入库单" Style="{StaticResource SubTitle}" Grid.Row="0" Grid.Column="2" />
+                        <DataGrid Style="{StaticResource CommonDataGrid}" ItemsSource="{Binding ReceiptDetails}" SelectedItem="{Binding ReceiptDetail}" Grid.Row="1" Grid.Column="2" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="单号" Binding="{Binding ReceiptId}" />
+                                <DataGridTextColumn Header="日期" Binding="{Binding Date, StringFormat='yyyy-MM-dd' }" />
+                                <DataGridTextColumn Header="申请用户" Binding="{Binding User.Name}" SortMemberPath="Id" />
+                                <DataGridTextColumn Header="申请部门" Binding="{Binding Department.Name}" SortMemberPath="Id" />
+                            </DataGrid.Columns>
+                            <DataGrid.InputBindings>
+                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ViewReceiptCommand}" />
+                            </DataGrid.InputBindings>
+                        </DataGrid>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Text="出库单" Style="{StaticResource SubTitle}" Grid.Row="2" Grid.Column="2" />
+                        <DataGrid Style="{StaticResource CommonDataGrid}" ItemsSource="{Binding Deliveries}" SelectedItem="{Binding Delivery}" Grid.Row="3" Grid.Column="2" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="单号" Binding="{Binding DeliveryId}" />
+                                <DataGridTextColumn Header="日期" Binding="{Binding Date, StringFormat='yyyy-MM-dd' }" />
+                                <DataGridTextColumn Header="申请用户" Binding="{Binding User.Name}" />
+                                <DataGridTextColumn Header="申请部门" Binding="{Binding Department.Name}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </DockPanel>
+</UserControl>

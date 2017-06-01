@@ -13,6 +13,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,30 +34,71 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>IMS.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Common\Convertors\ImageColorConvertor.cs" />
-    <Compile Include="Common\Convertors\VisibilityConvertor.cs" />
-    <Compile Include="Common\Interfaces\IFilterable.cs" />
+    <Compile Include="Common\Converters\BooleanInverseConverter.cs" />
+    <Compile Include="Common\Converters\ImageColorConverter.cs" />
+    <Compile Include="Common\Converters\VisibilityConverter.cs" />
+    <Compile Include="Common\IFilter.cs" />
+    <Compile Include="Common\ImageCache.cs" />
+    <Compile Include="Common\IFilterable.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Common\ViewModels\CollectionViewModelBase.cs" />
     <Compile Include="Common\Views\Dialog.cs" />
     <Compile Include="Common\Views\LoadingWindow.cs" />
+    <Compile Include="Entity\Author.cs" />
+    <Compile Include="Entity\Delivery.cs" />
+    <Compile Include="Entity\DeliveryDetail.cs" />
+    <Compile Include="Entity\DeliveryType.cs" />
+    <Compile Include="Entity\DeliveryTypes.cs" />
+    <Compile Include="Entity\Department.cs" />
     <Compile Include="Entity\Age.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Category.cs" />
     <Compile Include="Entity\CollectedTimeRange.cs" />
-    <Compile Include="Entity\DisabilityCondition.cs" />
     <Compile Include="Entity\DisabilityLevel.cs" />
     <Compile Include="Entity\Grain.cs" />
+    <Compile Include="Common\ISelectable.cs" />
     <Compile Include="Entity\Level.cs" />
+    <Compile Include="Entity\Location.cs" />
+    <Compile Include="Entity\Receipt.cs" />
+    <Compile Include="Entity\ReceiptDetail.cs" />
+    <Compile Include="Entity\ReceiptType.cs" />
     <Compile Include="Entity\Relic.cs" />
     <Compile Include="Entity\RelicIdType.cs" />
     <Compile Include="Entity\Source.cs" />
     <Compile Include="Entity\StoringCondition.cs" />
+    <Compile Include="Entity\Unit.cs" />
+    <Compile Include="Entity\ReceiptTypes.cs" />
+    <Compile Include="Entity\Storage.cs" />
+    <Compile Include="Entity\UnitTypes.cs" />
+    <Compile Include="Entity\User.cs" />
     <Compile Include="Entity\WeightRange.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Common\RelayCommand.cs" />
@@ -63,51 +106,50 @@
     <Compile Include="Plugins\UserManagement.cs" />
     <Compile Include="Plugins\WarehouseManagement.cs" />
     <Compile Include="ViewManager.cs" />
+    <Compile Include="ViewModels\DeliveryViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\RelicCollectionViewModel.cs" />
+    <Compile Include="ViewModels\ReceiptViewModel.cs" />
+    <Compile Include="ViewModels\CollectionViewModel.cs" />
+    <Compile Include="ViewModels\RelicImportViewModel.cs" />
     <Compile Include="ViewModels\RelicViewModel.cs" />
-    <Compile Include="ViewModels\WarehouseCollectionViewModel.cs" />
-    <Compile Include="Views\RelicCollectionView.xaml.cs">
-      <DependentUpon>RelicCollectionView.xaml</DependentUpon>
+    <Compile Include="ViewModels\WarehouseViewModel.cs" />
+    <Compile Include="Views\DeliveryView.xaml.cs">
+      <DependentUpon>DeliveryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReceiptView.xaml.cs">
+      <DependentUpon>ReceiptView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CollectionView.xaml.cs">
+      <DependentUpon>CollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RelicImportView.xaml.cs">
+      <DependentUpon>RelicImportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RelicView.xaml.cs">
       <DependentUpon>RelicView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserCollectionView.xaml.cs">
       <DependentUpon>UserCollectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WarehouseCollectionView.xaml.cs">
-      <DependentUpon>WarehouseCollectionView.xaml</DependentUpon>
+    <Compile Include="Views\WarehouseView.xaml.cs">
+      <DependentUpon>WarehouseView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Themes\Animations.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\CommandBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Common.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\DataGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\DialogPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\FilterPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="Warehouses.cs" />
     <Page Include="Themes\Images.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\NavigationBar.xaml">
+    <Page Include="Views\DeliveryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -119,23 +161,27 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Common\BaseViewModel.cs" />
-    <Compile Include="Interfaces\ILogger.cs" />
-    <Compile Include="Interfaces\IPlugin.cs" />
+    <Compile Include="Common\ViewModels\ViewModelBase.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="IPlugin.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Themes\Theme.xaml">
+    <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Styles.xaml">
+    <Page Include="Views\ReceiptView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RelicCollectionView.xaml">
+    <Page Include="Views\CollectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RelicImportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -143,11 +189,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SplashWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserCollectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\WarehouseCollectionView.xaml">
+    <Page Include="Views\WarehouseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -169,134 +219,77 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\InitializeData.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\导入模板示例.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\add.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\background.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\barcode.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\cancel.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\certificate.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\check.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\close.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\confirm.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\contact.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\copy.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\document.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\down.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\gear.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\group.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\hammer.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\home.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\index.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\left.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\mail.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\messenger.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\pencil.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\print.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\reload.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\right.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\save.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\screwdriver.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\search.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\star.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\statsbar.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\statsline.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\statspie.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\trashcan.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\undo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\up.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\zoomIn.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\zoomOut.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Images\add.png" />
+    <Resource Include="Images\barcode.png" />
+    <Resource Include="Images\bell.png" />
+    <Resource Include="Images\cancel.png" />
+    <Resource Include="Images\certificate.png" />
+    <Resource Include="Images\check.png" />
+    <Resource Include="Images\close.png" />
+    <Resource Include="Images\confirm.png" />
+    <Resource Include="Images\contact.png" />
+    <Resource Include="Images\copy.png" />
+    <Resource Include="Images\document.png" />
+    <Resource Include="Images\down.png" />
+    <Resource Include="Images\gear.png" />
+    <Resource Include="Images\group.png" />
+    <Resource Include="Images\hammer.png" />
+    <Resource Include="Images\home.png" />
+    <Resource Include="Images\index.png" />
+    <Resource Include="Images\left.png" />
+    <Resource Include="Images\mail.png" />
+    <Resource Include="Images\messenger.png" />
+    <Resource Include="Images\pencil.png" />
+    <Resource Include="Images\print.png" />
+    <Resource Include="Images\reload.png" />
+    <Resource Include="Images\repeat.png" />
+    <Resource Include="Images\right.png" />
+    <Resource Include="Images\save.png" />
+    <Resource Include="Images\screwdriver.png" />
+    <Resource Include="Images\search.png" />
+    <Resource Include="Images\star.png" />
+    <Resource Include="Images\statsbar.png" />
+    <Resource Include="Images\statsline.png" />
+    <Resource Include="Images\statspie.png" />
+    <Resource Include="Images\trashcan.png" />
+    <Resource Include="Images\undo.png" />
+    <Resource Include="Images\up.png" />
+    <Resource Include="Images\upload.png" />
+    <Resource Include="Images\zoomIn.png" />
+    <Resource Include="Images\zoomOut.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\download.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\list.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Images\download.png" />
+    <Resource Include="Images\list.png" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Excel, Version=2.1.2.3, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.2.1.2.3\lib\net45\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="iTextSharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
+      <HintPath>..\packages\iTextSharp-LGPL.4.1.6\lib\iTextSharp.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -304,12 +297,19 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\exclamation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\background.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>IF NOT EXIST "$(TargetDir)MockData" (MKDIR "$(TargetDir)MockData")</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

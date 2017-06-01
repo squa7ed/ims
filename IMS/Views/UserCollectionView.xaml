@@ -1,21 +1,32 @@
 ﻿<UserControl x:Class="IMS.Views.UserCollectionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:convertors="clr-namespace:IMS.Common.Convertors"
-             xmlns:local="clr-namespace:IMS.Views"
-             mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IMS.Views" xmlns:converter="clr-namespace:IMS.Common.Converters" mc:Ignorable="d">
     <UserControl.Resources>
-        <convertors:ImageColorConvertor x:Key="ImageColorConvertor" />
+        <converter:VisibilityConverter x:Key="VisibilityConverter" />
+        <converter:ImageColorConverter x:Key="ImageColorConverter" />
     </UserControl.Resources>
-    <Grid>
-        <Image Width="128"
-               VerticalAlignment="Center"
-               HorizontalAlignment="Center"
-               Source="{Binding Source={StaticResource IconStar}, Converter={StaticResource ImageColorConvertor}}" />
-
-    </Grid>
+    <GroupBox BorderThickness="0">
+        <GroupBox.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="类别" />
+                <ToggleButton Grid.Column="1" x:Name="Expander" IsChecked="False" BorderThickness="0" Content="Users"/>
+            </Grid>
+        </GroupBox.Header>
+        <StackPanel Visibility="{Binding ElementName=Expander, Path=IsChecked, Converter={StaticResource VisibilityConverter}}">
+            <TextBlock Text="text1" />
+            <TextBlock Text="text1" />
+            <TextBlock Text="text1" />
+            <TextBlock Text="text1" />
+            <TextBlock Text="text1" />
+            <TextBlock Text="text1" />
+            <TextBlock Text="text1" />
+        </StackPanel>
+    </GroupBox>
 </UserControl>

@@ -16,37 +16,30 @@ namespace IMS
 {
     public class ViewManager
     {
+        private static Stack<object> contents = new Stack<object>();
 
         #region Public methods
         public static void Loading()
         {
-            loading = true;
-            MainWindow.StartLoading();
-        }
-
-        public static void Show(UserControl content)
-        {
-            StopLoading();
-            ViewModel.Contents.Push(ViewModel.CurrentContent);
-            ViewModel.CurrentContent = content;
-        }
-
-        public static void Change(UserControl content)
-        {
-            StopLoading();
-            var e = new CancelEventArgs(false);
-            ViewModel.Dispose(null, e);
-            if (e.Cancel)
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)delegate
             {
-                return;
-            }
-            ViewModel.CurrentContent = content;
+                loading = true;
+                MainWindow.StartLoading();
+            });
         }
 
-        public static void Backward()
+        public static void Show(object content)
         {
-            StopLoading();
-            if (ViewModel.Contents.Count > 0)
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)delegate
+             {
+                 contents.Push(ViewModel.CurrentContent);
+                 ViewModel.CurrentContent = content;
+             });
+        }
+
+        public static void Change(object content)
+        {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)delegate
             {
                 var e = new CancelEventArgs(false);
                 ViewModel.Dispose(null, e);
@@ -54,34 +47,47 @@ namespace IMS
                 {
                     return;
                 }
-                ViewModel.CurrentContent = ViewModel.Contents.Pop();
-            }
+                ViewModel.CurrentContent = content;
+            });
         }
 
+        public static void Backward()
+        {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)delegate
+            {
+                if (contents.Count > 0)
+                {
+                    var e = new CancelEventArgs(false);
+                    ViewModel.Dispose(null, e);
+                    if (e.Cancel)
+                    {
+                        return;
+                    }
+                    if (contents.Count > 0)
+                    {
+                        ViewModel.CurrentContent = contents.Pop();
+                    }
+                }
+            });
+        }
 
+        public static void LoadingFinished()
+        {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)delegate
+            {
+                if (loading)
+                {
+                    loading = false;
+                    MainWindow.StopLoading();
+                }
+            });
+        }
 
 
         #endregion
 
 
         private static bool loading;
-
-        private static bool showingDialog;
-
-        private static ViewManager loadingWindow;
-        private static ViewManager LoadingWindow { get; }
-
-        private static ViewManager dialogWindow;
-        private static ViewManager DialogWindow { get; }
-
-        private static void StopLoading()
-        {
-            if (loading)
-            {
-                loading = false;
-                MainWindow.StopLoading();
-            }
-        }
 
         private static MainWindow MainWindow
         {
